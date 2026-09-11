@@ -16,12 +16,10 @@ export default app;
 
 function proxyHandler(context: c) {
     const url = new URL(context.req.url);
-    const gatewayBaseUrl = 'https://ollama-gateway.k586.jp/custom/ollama-local';
-    const targetUrl = gatewayBaseUrl + url.pathname + url.search;
+    const targetUrl = 'http://example.com' + url.pathname + url.search;
 
     const headers = new Headers(context.req.raw.headers);
-    headers.delete('host');
-    const requestInit: RequestInit = {
+    const json: RequestInit = {
         method: context.req.method,
         headers: headers,
         body: ['GET', 'HEAD'].includes(context.req.method) ? null : context.req.raw.body,
@@ -29,14 +27,9 @@ function proxyHandler(context: c) {
         duplex: 'half'
     };
 
-    const proxyRequest = new Request(targetUrl, requestInit);
-    const requestInitCfProperties: RequestInit = {
-        // @ts-ignore
-        fetch: context.env.OLLAMA_VPC.fetch.bind(context.env.OLLAMA_VPC)
-    };
-    const result = fetch(proxyRequest, requestInitCfProperties);
+    const proxyRequest = new Request(targetUrl, json);
 
-    return result;
+    return context.env.OLLAMA_VPC.fetch(proxyRequest);
 }
 
 // ================================================================
