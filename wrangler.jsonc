@@ -6,7 +6,8 @@
   "vpc_services": [
     {
       "binding": "OLLAMA_VPC",
-      "service_id": "ollama-local"
+      "service_id": "01a09042-1450-7fb3-b987-07b2a5c9d16d",
+      "remote": true
     }
   ],
   "workers_dev": false,
