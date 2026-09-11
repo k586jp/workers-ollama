@@ -3,6 +3,7 @@
 // Runtime types generated with workerd@1.20260708.1 2026-07-10 
 export {};
 declare global {
+    const WORKER_TOKEN: string;
 	const SECRET_KEY: string;
 }
 
