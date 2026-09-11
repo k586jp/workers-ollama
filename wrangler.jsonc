@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "workers-ollama",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-10",
+  "services": [
+    {
+      "binding": "OLLAMA_VPC",
+      "service": "ollama-local"
+    }
+  ],
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "ollama.k586.jp",
+      "custom_domain": true
+    }
+  ]
+}
