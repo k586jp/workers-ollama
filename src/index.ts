@@ -3,8 +3,7 @@ import {Hono, Context as c, Next} from 'hono';
 type Env = {
     Bindings: {
         OLLAMA_VPC: Fetcher,
-        WORKER_TOKEN: string,
-        SECRET_KEY: string
+        WORKER_TOKEN: string
     }
 };
 
@@ -37,13 +36,8 @@ function proxyHandler(context: c) {
 
 async function useAuthentication(context: c, next: Next) {
     const token = context.req.header('Authorization');
-    const apiKey = context.req.header('x-api-key');
 
     if (token !== 'Bearer ' + context.env.WORKER_TOKEN) {
-        return context.json({ error: 'Unauthorized' }, 401);
-    }
-
-    if (apiKey !== context.env.SECRET_KEY) {
         return context.json({ error: 'Unauthorized' }, 401);
     }
 

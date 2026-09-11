@@ -4,7 +4,6 @@
 export {};
 declare global {
     const WORKER_TOKEN: string;
-	const SECRET_KEY: string;
 }
 
 // Begin runtime types
