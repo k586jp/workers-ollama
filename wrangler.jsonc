@@ -10,12 +10,6 @@
       "remote": true
     }
   ],
-  "services": [
-    {
-      "binding": "AI_GATEWAY",
-      "service": "ollama-gateway"
-    }
-  ],
   "workers_dev": false,
   "routes": [
     {
