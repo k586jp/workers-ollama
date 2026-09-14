@@ -20,19 +20,21 @@ async function proxyHandler(context: c) {
         'gemma4:26b': '/gemma4-26b',
         'gemma4:31b': '/gemma4-31b',
     };
-    let modelPrefix = '';
-    let bodyStream: ReadableStream | string | null = context.req.raw.body;
+    let modelPrefix = '/gemma4-e4b';
+    let requestBody: ArrayBuffer | null = null;
 
     if (!['GET', 'HEAD'].includes(context.req.method)) {
-        const clonedRequest = context.req.raw.clone();
         try {
-            const bodyJson = await clonedRequest.json() as { model?: string };
-            if (bodyJson && bodyJson.model) {
-                modelPrefix = modelPathMap[bodyJson.model] || modelPathMap['gemma4:e4b'];
+            requestBody = await context.req.raw.arrayBuffer();
+            if (requestBody && requestBody.byteLength > 0) {
+                const text = new TextDecoder().decode(requestBody);
+                const bodyJson = JSON.parse(text) as { model?: string };
+
+                if (bodyJson && bodyJson.model) {
+                    modelPrefix = modelPathMap[bodyJson.model] || modelPrefix;
+                }
             }
-        } catch (e) {
-            modelPrefix = modelPathMap['gemma4:e4b'];
-        }
+        } catch (e) {}
     }
 
     const url = new URL(context.req.url);
@@ -42,7 +44,7 @@ async function proxyHandler(context: c) {
     const requestInit: RequestInit = {
         method: context.req.method,
         headers: headers,
-        body: ['GET', 'HEAD'].includes(context.req.method) ? null : bodyStream,
+        body: requestBody,
         // @ts-ignore  Body ストリーミング転送に必要なオプション
         duplex: 'half'
     };
