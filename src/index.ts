@@ -19,6 +19,7 @@ async function proxyHandler(context: c) {
         'gemma4:e4b': '/gemma4-e4b',
         'gemma4:26b': '/gemma4-26b',
         'gemma4:31b': '/gemma4-31b',
+        'qwen3.8:27b': '/qwen3_8-27b'
     };
     let modelPrefix = '/gemma4-e4b';
     let requestBody: ArrayBuffer | null = null;
