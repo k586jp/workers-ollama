@@ -15,15 +15,26 @@ export default app;
 // ================================================================
 
 async function proxyHandler(context: c) {
+    const url = new URL(context.req.url);
+
+    if (url.pathname.endsWith('/models')) {
+        return context.json({
+            object: "list",
+            data: [
+                { id: "gemma4:e4b", object: "model", created: 0, owned_by: "llamacpp" },
+                { id: "gemma4:26b", object: "model", created: 0, owned_by: "llamacpp" },
+                { id: "qwen3.8:27b", object: "model", created: 0, owned_by: "llamacpp" }
+            ]
+        });
+    }
+
     const modelPathMap: Record<string, string> = {
         'gemma4:e4b': '/gemma4-e4b',
         'gemma4:26b': '/gemma4-26b',
-        'gemma4:31b': '/gemma4-31b',
         'qwen3.8:27b': '/qwen3_8-27b'
     };
     let modelPrefix = '/gemma4-e4b';
     let requestBody: ArrayBuffer | null = null;
-
     if (!['GET', 'HEAD'].includes(context.req.method)) {
         try {
             requestBody = await context.req.raw.arrayBuffer();
@@ -37,8 +48,6 @@ async function proxyHandler(context: c) {
             }
         } catch (e) {}
     }
-
-    const url = new URL(context.req.url);
     const targetUrl = 'http://example.com' + modelPrefix + url.pathname + url.search;
 
     const headers = new Headers(context.req.raw.headers);
