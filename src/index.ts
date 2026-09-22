@@ -21,7 +21,6 @@ async function proxyHandler(context: c) {
         return context.json({
             object: "list",
             data: [
-                { id: "gemma4:e4b(qat)", object: "model", created: 0, owned_by: "llamacpp" },
                 { id: "gemma4:26b(qat)", object: "model", created: 0, owned_by: "llamacpp" },
                 { id: "qwen3.8:27b", object: "model", created: 0, owned_by: "llamacpp" }
             ]
@@ -29,7 +28,6 @@ async function proxyHandler(context: c) {
     }
 
     const modelPathMap: Record<string, string> = {
-        'gemma4:e4b(qat)': '/gemma4-e4b',
         'gemma4:26b(qat)': '/gemma4-26b',
         'qwen3.8:27b': '/qwen3_8-27b'
     };
