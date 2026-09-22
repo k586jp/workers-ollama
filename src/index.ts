@@ -31,7 +31,7 @@ async function proxyHandler(context: c) {
         'gemma4:26b(qat)': '/gemma4-26b',
         'qwen3.8:27b': '/qwen3_8-27b'
     };
-    let modelPrefix = '/gemma4-e4b';
+    let modelPrefix = '/gemma4-26b';
     let requestBody: ArrayBuffer | null = null;
     if (!['GET', 'HEAD'].includes(context.req.method)) {
         try {
