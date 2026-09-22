@@ -29,11 +29,11 @@ async function proxyHandler(context: c) {
     }
 
     const modelPathMap: Record<string, string> = {
-        'gemma4:e4b(qat)': '/gemma4-e4b',
-        'gemma4:26b(qat)': '/gemma4-26b',
-        'qwen3.8:27b': '/qwen3_8-27b'
+        'gemma4:e4b(qat)': '/gemma-e4b',
+        'gemma4:26b(qat)': '/gemma-26b',
+        'qwen3.8:27b': '/qwen-27b'
     };
-    let modelPrefix = '/gemma4-e4b';
+    let modelPrefix = '/gemma-e4b';
     let requestBody: ArrayBuffer | null = null;
     if (!['GET', 'HEAD'].includes(context.req.method)) {
         try {
